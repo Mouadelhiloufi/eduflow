@@ -24,6 +24,6 @@ class CourseGroup extends Model
 
     public function enrollments()
     {
-        return $this->hasMany(Enrollment::class, 'group_id');
+        return $this->hasMany(Enrollment::class, 'course_group_id');
     }   
 }

@@ -7,5 +7,5 @@ Route::get('/', function () {
     return response()->json(['message' => 'Hello world!']);
 });
 
-
+// Route::view('/login', 'login');
 

@@ -7,13 +7,19 @@ use App\Http\Controllers\Api\InterestController;
 use App\Http\Controllers\Api\RecommendationController;
 use App\Http\Controllers\Api\WishlistController;
 use App\Http\Controllers\Api\EnrollmentController;
-use App\Http\Controllers\Api\GroupController;  
+use App\Http\Controllers\Api\StripeController;
 
 
 
 
 Route::get('/courses', [CourseController::class, 'index']);
 Route::get('/courses/{course}', [CourseController::class, 'show']);
+
+
+Route::get('/payment/success', [StripeController::class, 'success']);
+Route::get('/payment/cancel', [StripeController::class, 'cancel']);
+
+
 
 Route::get('/interests', [InterestController::class, 'index']);
 
@@ -33,6 +39,11 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/enrollments', [EnrollmentController::class, 'index']);
     Route::post('/enrollments', [EnrollmentController::class, 'store']);
     Route::delete('/enrollments/{courseId}', [EnrollmentController::class, 'destroy']);
+
+
+
+    Route::post('/courses/{courseId}/checkout', [StripeController::class, 'createCheckoutSession']);
+
 });
 
 
