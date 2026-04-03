@@ -14,8 +14,9 @@ public function __construct(protected GroupService $groupService)
 
     public function getStudentEnrollments(int $studentId)
     {
-        return Enrollment::with('course')
+        return Enrollment::with(['course.teacher', 'group'])
             ->where('student_id', $studentId)
+            ->orderBy('enrolled_at', 'desc')
             ->get();
     }
 

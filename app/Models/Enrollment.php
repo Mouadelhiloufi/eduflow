@@ -27,6 +27,6 @@ class Enrollment extends Model
 
     public function group()
     {
-        return $this->belongsTo(CourseGroup::class);
+        return $this->belongsTo(CourseGroup::class, 'course_group_id');
     }
 }

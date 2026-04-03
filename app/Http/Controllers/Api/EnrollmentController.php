@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Services\EnrollmentService;
 use Illuminate\Http\Request;
+use App\Models\Enrollment;
 
 class EnrollmentController extends Controller
 {
@@ -21,6 +22,30 @@ class EnrollmentController extends Controller
         }
 
         $enrollments = $this->enrollmentService->getStudentEnrollments($request->user()->id);
+
+        return response()->json($enrollments);
+    }
+
+    public function getCourseEnrollments(Request $request, int $courseId)
+    {
+        if ($request->user()->role !== 'teacher') {
+            return response()->json([
+                'message' => 'Accès refusé'
+            ], 403);
+        }
+
+        // Vérifier que le cours appartient à l'enseignant
+        $course = \App\Models\Course::find($courseId);
+        
+        if (!$course || $course->teacher_id !== $request->user()->id) {
+            return response()->json([
+                'message' => 'Cours introuvable ou accès refusé'
+            ], 403);
+        }
+
+        $enrollments = Enrollment::with(['student', 'group'])
+            ->where('course_id', $courseId)
+            ->get();
 
         return response()->json($enrollments);
     }
