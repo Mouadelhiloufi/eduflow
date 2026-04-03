@@ -1,0 +1,467 @@
+{
+    "info": {
+        "name": "EduFlow API",
+        "_postman_id": "eduflow-api-collection",
+        "description": "Collection complète pour l'API EduFlow",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:8000",
+            "type": "string"
+        },
+        {
+            "key": "token",
+            "value": "",
+            "type": "string"
+        }
+    ],
+    "item": [
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "Register (Student)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Content-Type", "value": "application/json" },
+                            { "key": "Accept", "value": "application/json" }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"password\": \"password123\",\n    \"password_confirmation\": \"password123\",\n    \"role\": \"student\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/register",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "register"]
+                        }
+                    }
+                },
+                {
+                    "name": "Register (Teacher)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Content-Type", "value": "application/json" },
+                            { "key": "Accept", "value": "application/json" }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Jane Teacher\",\n    \"email\": \"teacher@example.com\",\n    \"password\": \"password123\",\n    \"password_confirmation\": \"password123\",\n    \"role\": \"teacher\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/register",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "register"]
+                        }
+                    }
+                },
+                {
+                    "name": "Login",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "const res = pm.response.json();",
+                                    "if (res.access_token) {",
+                                    "    pm.collectionVariables.set('token', res.access_token);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Content-Type", "value": "application/json" },
+                            { "key": "Accept", "value": "application/json" }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"john@example.com\",\n    \"password\": \"password123\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/login",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "login"]
+                        }
+                    }
+                },
+                {
+                    "name": "Get User",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            { "key": "Accept", "value": "application/json" },
+                            { "key": "Authorization", "value": "Bearer {{token}}" }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/user",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "user"]
+                        }
+                    }
+                },
+                {
+                    "name": "Update User",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            { "key": "Content-Type", "value": "application/json" },
+                            { "key": "Accept", "value": "application/json" },
+                            { "key": "Authorization", "value": "Bearer {{token}}" }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"John Updated\",\n    \"email\": \"john_updated@example.com\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/user",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "user"]
+                        }
+                    }
+                },
+                {
+                    "name": "Logout",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Accept", "value": "application/json" },
+                            { "key": "Authorization", "value": "Bearer {{token}}" }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/logout",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "logout"]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Courses",
+            "item": [
+                {
+                    "name": "Get All Courses",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            { "key": "Accept", "value": "application/json" }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/courses",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "courses"]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Course by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            { "key": "Accept", "value": "application/json" }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/courses/1",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "courses", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Course (Teacher)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Content-Type", "value": "application/json" },
+                            { "key": "Accept", "value": "application/json" },
+                            { "key": "Authorization", "value": "Bearer {{token}}" }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Laravel Avancé\",\n    \"description\": \"Cours complet sur Laravel\",\n    \"price\": 49.99\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/courses",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "courses"]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Course (Teacher)",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            { "key": "Content-Type", "value": "application/json" },
+                            { "key": "Accept", "value": "application/json" },
+                            { "key": "Authorization", "value": "Bearer {{token}}" }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Laravel Avancé v2\",\n    \"description\": \"Cours mis à jour\",\n    \"price\": 59.99\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/courses/1",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "courses", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Course (Teacher)",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            { "key": "Accept", "value": "application/json" },
+                            { "key": "Authorization", "value": "Bearer {{token}}" }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/courses/1",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "courses", "1"]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Interests",
+            "item": [
+                {
+                    "name": "Get All Interests",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            { "key": "Accept", "value": "application/json" }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/interests",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "interests"]
+                        }
+                    }
+                },
+                {
+                    "name": "Save My Interests",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Content-Type", "value": "application/json" },
+                            { "key": "Accept", "value": "application/json" },
+                            { "key": "Authorization", "value": "Bearer {{token}}" }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"interest_ids\": [1, 2, 3]\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/my-interests",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "my-interests"]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Recommendations",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            { "key": "Accept", "value": "application/json" },
+                            { "key": "Authorization", "value": "Bearer {{token}}" }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/recommendations",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "recommendations"]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Wishlist",
+            "item": [
+                {
+                    "name": "Get Wishlist",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            { "key": "Accept", "value": "application/json" },
+                            { "key": "Authorization", "value": "Bearer {{token}}" }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/wishlist",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "wishlist"]
+                        }
+                    }
+                },
+                {
+                    "name": "Add to Wishlist",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Content-Type", "value": "application/json" },
+                            { "key": "Accept", "value": "application/json" },
+                            { "key": "Authorization", "value": "Bearer {{token}}" }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"course_id\": 1\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/wishlist",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "wishlist"]
+                        }
+                    }
+                },
+                {
+                    "name": "Remove from Wishlist",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            { "key": "Accept", "value": "application/json" },
+                            { "key": "Authorization", "value": "Bearer {{token}}" }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/wishlist/1",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "wishlist", "1"]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Enrollments",
+            "item": [
+                {
+                    "name": "Get My Enrollments",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            { "key": "Accept", "value": "application/json" },
+                            { "key": "Authorization", "value": "Bearer {{token}}" }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/enrollments",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "enrollments"]
+                        }
+                    }
+                },
+                {
+                    "name": "Enroll in Course",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Content-Type", "value": "application/json" },
+                            { "key": "Accept", "value": "application/json" },
+                            { "key": "Authorization", "value": "Bearer {{token}}" }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"course_id\": 1\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/enrollments",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "enrollments"]
+                        }
+                    }
+                },
+                {
+                    "name": "Withdraw from Course",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            { "key": "Accept", "value": "application/json" },
+                            { "key": "Authorization", "value": "Bearer {{token}}" }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/enrollments/1",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "enrollments", "1"]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Payment (Stripe)",
+            "item": [
+                {
+                    "name": "Create Checkout Session",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "const res = pm.response.json();",
+                                    "if (res.checkout_url) {",
+                                    "    const sessionId = res.checkout_url.split('/pay/')[1];",
+                                    "    pm.collectionVariables.set('session_id', sessionId);",
+                                    "    console.log('Ouvre ce lien dans le navigateur: ' + res.checkout_url);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            { "key": "Accept", "value": "application/json" },
+                            { "key": "Authorization", "value": "Bearer {{token}}" }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/courses/1/checkout",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "courses", "1", "checkout"]
+                        }
+                    }
+                },
+                {
+                    "name": "Payment Success",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            { "key": "Accept", "value": "application/json" }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/payment/success?session_id={{session_id}}",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "payment", "success"],
+                            "query": [
+                                { "key": "session_id", "value": "{{session_id}}" }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Payment Cancel",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            { "key": "Accept", "value": "application/json" }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/payment/cancel",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "payment", "cancel"]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
