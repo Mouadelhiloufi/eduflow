@@ -45,6 +45,7 @@ class CourseController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'price' => ['required', 'numeric', 'min:0'],
+            'image' => ['nullable', 'string'],
         ]);
 
         $course = $this->courseService->createCourse([
@@ -52,6 +53,7 @@ class CourseController extends Controller
             'title' => $validated['title'],
             'description' => $validated['description'] ?? null,
             'price' => $validated['price'],
+            'image' => $validated['image'] ?? null,
         ]);
         
         return response()->json([
@@ -86,6 +88,7 @@ class CourseController extends Controller
             'title' => ['sometimes', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'price' => ['sometimes', 'numeric', 'min:0'],
+            'image' => ['nullable', 'string'],
         ]);
 
         $updatedCourse = $this->courseService->updateCourse($course, $validated);

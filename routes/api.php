@@ -39,6 +39,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/enrollments', [EnrollmentController::class, 'index']);
     Route::post('/enrollments', [EnrollmentController::class, 'store']);
     Route::delete('/enrollments/{courseId}', [EnrollmentController::class, 'destroy']);
+    Route::get('/courses/{courseId}/enrollments', [EnrollmentController::class, 'getCourseEnrollments']);
 
 
 
