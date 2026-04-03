@@ -70,5 +70,8 @@ class WishlistController extends Controller
         return response()->json([
             'message' => 'Favori supprimé avec succès'
         ]);
+
+
+        
     }
 }
