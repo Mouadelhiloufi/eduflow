@@ -18,8 +18,8 @@ class StripeService
     {
         return $this->stripe->checkout->sessions->create([
             'mode' => 'payment',
-            'success_url' => url('/api/payment/success') . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => url('/api/payment/cancel'),
+            'success_url' => url('/payment/success') . '?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => url('/payment/cancel'),
             'metadata' => [
                 'student_id' => $studentId,
                 'course_id' => $course->id,

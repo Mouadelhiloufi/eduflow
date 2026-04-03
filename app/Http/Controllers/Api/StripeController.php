@@ -75,6 +75,9 @@ class StripeController extends Controller
             ], 409);
         }
 
+        // Charger les relations pour la réponse
+        $enrollment->load(['course', 'group']);
+
         return response()->json([
             'message' => 'Paiement confirmé et inscription créée',
             'enrollment' => $enrollment
